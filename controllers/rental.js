@@ -1,9 +1,8 @@
 const rental = require('../models/rental.model');
 const {customers} = require('../models/customers.model')
 const movies = require('../models/movies.model')
-const {Fawn , mongoose} = require('../models/conection.db')
+const { mongoose} = require('../models/conection.db')
 
-let task = Fawn.Task();
 async function getRental(req , res , next) {
     try {
         const user = await customers.find({email:req.body.email}).select('-password')
@@ -43,14 +42,12 @@ async function addRental(req , res , next) {
             returnDate: req.body.rdate,
             rentalFee:req.body.period * Number(movie[0].dailyRentalRate)
         })
-        const value  =  await task
-        .update('movies',{_id: mongoose.Types.ObjectId(req.params.id)},{
+        movies.updateOne({_id: mongoose.Types.ObjectId(req.params.id)},{
             $inc:{
                 numberInStock:-1
             }
         })
-        .save('rentals',result)
-        .run();
+        await result.save()
         return res.send(result);
         
     }
