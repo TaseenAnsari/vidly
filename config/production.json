@@ -1,4 +1,5 @@
 {
-    "jwtPrivateKey":"",
-    "db":""
+    "jwtPrivateKey":"taseen-dev",
+    "db":"mongodb+srv://taseenansari:tensea98351@cluster0.2o2yq.mongodb.net/test"
+    
 }
