@@ -59,7 +59,7 @@ async function loginCustomer(req, res, next) {
         const result = await customers.find({ email: req.body.email }).select('email password'); //same
         if (!result[0]) return res.status(401).send("email doesn't exist")
         if (await decryptPassword(req.body.password, result[0].password)) {
-            return res.header("x-auth-token", await generateToken(req.body)).send("successfully logged in")
+            return res.send({userToken:token})
         }
         else {
             return res.status(401).send("password miss matched");
