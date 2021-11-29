@@ -8,7 +8,7 @@
     "start": "node server.js"
   },
   "engine": {
-    "node":"12.22.7"
+    "node": "12.22.7"
   },
   "keywords": [],
   "author": "",

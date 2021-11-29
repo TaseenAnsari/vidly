@@ -5,8 +5,10 @@ const { mongoose} = require('../models/conection.db')
 
 async function getRental(req , res , next) {
     try {
-        const user = await customers.find({email:req.body.email}).select('-password')
-        if(!user[0].admin) return res.send(await rental.find(req.query.customer));
+        const user = await customers.find({email:req.body.email.email}).select('-password')
+        if(!user[0].admin) return res.send(await rental.find({
+                "customer.email":req.body.email.email
+        }));
         return res.send(await rental.find({email:user[0].email}))
     }
     catch (err) {
@@ -17,7 +19,7 @@ async function getRental(req , res , next) {
 
 async function addRental(req , res , next) {
     try {
-        const email = req.body.email
+        const email = req.body.email.email
         const customer = await customers.find({ email })
         .select('-password -_id -admin -__v');
         const movie = await movies.find({ _id: mongoose.Types.ObjectId(req.params.id) })
@@ -42,7 +44,7 @@ async function addRental(req , res , next) {
             returnDate: req.body.rdate,
             rentalFee:req.body.period * Number(movie[0].dailyRentalRate)
         })
-        movies.updateOne({_id: mongoose.Types.ObjectId(req.params.id)},{
+        await movies.updateOne({_id: mongoose.Types.ObjectId(req.params.id)},{
             $inc:{
                 numberInStock:-1
             }

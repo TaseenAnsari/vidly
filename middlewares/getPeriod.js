@@ -1,10 +1,10 @@
 
 module.exports = async function (req, res, next) {
     try {
+        if(!req.body.returnDate) return res.status(404).send("date not found")
         let period = 0
         dateNow = new Date(Date.now())
         dateReturn = new Date(req.body.returnDate);
-        console.log(typeof(dateReturn))
         if(dateReturn =="Invalid Date") return res.status(400).send('Invalid date')
         if (dateNow.getFullYear() === dateReturn.getFullYear()) {
             if (dateNow.getMonth() === dateReturn.getMonth()) {
